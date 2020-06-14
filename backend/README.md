@@ -40,17 +40,28 @@ psql trivia < trivia.psql
 
 From within the `backend` directory first ensure you are working using your created virtual environment.
 
-To run the server, execute:
+To run the server in development , execute:
 
 ```bash
 export FLASK_APP=flaskr
 export FLASK_ENV=development
+export DATABASE_URL=postgres://{user}:{password}@localhost:5432/{db}
+export FLASK_CONFIGURATION=dev
 flask run
 ```
 
 Setting the `FLASK_ENV` variable to `development` will detect file changes and restart the server automatically.
 
 Setting the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` directory and the `__init__.py` file to find the application. 
+
+To run the server in production , execute:
+
+```bash
+export FLASK_APP=flaskr
+export DATABASE_URL=postgres://{user}:{password}@localhost:5432/{db}
+export FLASK_CONFIGURATION=prod
+flask run
+```
 
 ## Tasks
 
