@@ -306,5 +306,9 @@ To run the tests, run
 dropdb trivia_test
 createdb trivia_test
 psql trivia_test < trivia.psql
-python test_flaskr.py
+export FLASK_APP=flaskr
+export FLASK_ENV=development
+export DATABASE_TEST_URL=postgres://{user}:{password}@localhost:5432/{db}
+export FLASK_CONFIGURATION=test
+python test_flaskr.py -v
 ```
