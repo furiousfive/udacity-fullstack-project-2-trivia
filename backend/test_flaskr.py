@@ -1,4 +1,5 @@
 import unittest
+import random
 import json
 from flask_sqlalchemy import SQLAlchemy
 
@@ -94,7 +95,7 @@ class TriviaTestCase(unittest.TestCase):
             'question': 'new question',
             'answer': 'new answer',
             'difficulty': 1,
-            'category': 1
+            'category': random.randint(1,6)
         }
         total_before_request = len(Question.query.all())
         res = self.client().post('/questions/', json=question)

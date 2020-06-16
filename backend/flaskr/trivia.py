@@ -210,13 +210,14 @@ def play_quiz():
         category = body.get('quiz_category')
         previous_questions = body.get('previous_questions')
 
-        if category['id'] in [x.id for x in Category.query.all()]:
+        if category['type'] == 'click':
+            available_questions = Question.query.filter(
+                Question.id.notin_((previous_questions))).all()
+        else:
             available_questions = Question.query.filter_by(
                 category=category['id']).filter(
                 Question.id.notin_((previous_questions))).all()
-        else:
-            available_questions = Question.query.filter(
-                Question.id.notin_((previous_questions))).all()
+
 
         new_question = available_questions[random.randrange(
             0, len(available_questions))].format() if len(

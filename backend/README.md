@@ -45,7 +45,7 @@ To run the server in development , execute:
 ```bash
 export FLASK_APP=flaskr
 export FLASK_ENV=development
-export DATABASE_URL=postgres://{user}:{password}@localhost:5432/{db}
+export DATABASE_URL=postgres://trivia:{password}@localhost:5432/trivia
 export FLASK_CONFIGURATION=dev
 flask run
 ```
@@ -308,7 +308,7 @@ createdb trivia_test
 psql trivia_test < trivia.psql
 export FLASK_APP=flaskr
 export FLASK_ENV=development
-export DATABASE_TEST_URL=postgres://{user}:{password}@localhost:5432/{db}
+export DATABASE_TEST_URL=postgres://trivia:{password}@localhost:5432/trivia_test
 export FLASK_CONFIGURATION=test
 python test_flaskr.py -v
 ```
