@@ -1,10 +1,11 @@
 from flask import request, abort, jsonify, Blueprint
 import random
 
-from flaskr.models import  Question, Category
+from flaskr.models import Question, Category
 
 QUESTIONS_PER_PAGE = 5
 trivia = Blueprint('trivia', __name__)
+
 
 @trivia.route('/categories/')
 def retrieve_categories():
@@ -22,6 +23,7 @@ def retrieve_categories():
         'categories': {category.id: category.type for category in categories}
     })
 
+
 @trivia.route('/categories/<int:category_id>/', methods=['GET'])
 def retrieve_category(category_id):
     """
@@ -38,6 +40,7 @@ def retrieve_category(category_id):
 
     except:
         abort(404)
+
 
 @trivia.route('/categories/', methods=['POST'])
 def add_catagory():
@@ -61,6 +64,7 @@ def add_catagory():
     except:
         abort(422)
 
+
 @trivia.route('/questions/')
 def retrieve_questions():
     """
@@ -69,7 +73,8 @@ def retrieve_questions():
     """
     page = request.args.get('page', 1)
 
-    questions = Question.query.order_by(Question.id).paginate(int(page), per_page=QUESTIONS_PER_PAGE)
+    questions = Question.query.order_by(
+        Question.id).paginate(int(page), per_page=QUESTIONS_PER_PAGE)
     categories = Category.query.order_by(Category.type).all()
 
     if questions.total == 0:
@@ -82,7 +87,6 @@ def retrieve_questions():
         'categories': {category.id: category.type for category in categories},
         'current_category': None
     })
-
 
 
 @trivia.route('/questions/<int:question_id>/', methods=['GET'])
@@ -121,6 +125,7 @@ def delete_question(question_id):
     except:
         abort(422)
 
+
 @trivia.route('/questions/', methods=['POST'])
 def add_question():
     """
@@ -129,7 +134,8 @@ def add_question():
     """
     body = request.get_json()
 
-    if ('question' not in body) or ('answer' not in body) or ('difficulty' not in body) or ('category' not in body):
+    if ('question' not in body) or ('answer' not in body) or \
+            ('difficulty' not in body) or ('category' not in body):
         abort(422)
 
     try:
@@ -145,6 +151,7 @@ def add_question():
         })
     except:
         abort(422)
+
 
 @trivia.route('/questions/search/', methods=['POST'])
 def search_questions():
@@ -188,6 +195,7 @@ def retrieve_questions_by_category(category_id):
     except:
         abort(404)
 
+
 @trivia.route('/quizzes/', methods=['POST'])
 def play_quiz():
     """
@@ -204,13 +212,15 @@ def play_quiz():
 
         if category['id'] in [x.id for x in Category.query.all()]:
             available_questions = Question.query.filter_by(
-                category=category['id']).filter(Question.id.notin_((previous_questions))).all()
+                category=category['id']).filter(
+                Question.id.notin_((previous_questions))).all()
         else:
             available_questions = Question.query.filter(
                 Question.id.notin_((previous_questions))).all()
 
         new_question = available_questions[random.randrange(
-            0, len(available_questions))].format() if len(available_questions) > 0 else None
+            0, len(available_questions))].format() if len(
+            available_questions) > 0 else None
 
         return jsonify({
             'success': True,
